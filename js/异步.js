@@ -1,4 +1,4 @@
-// 模拟实现promise.finally
+// promise.finally
 Promise.prototype.finally = function (callback) {
   callback = typeof callback === "function" ? callback : function () {};
   let p = this.constructor;
@@ -6,35 +6,41 @@ Promise.prototype.finally = function (callback) {
     (value) => p.resolve(callback()).then(() => value),
     (reason) =>
       p.resolve(callback()).then(() => {
-        throw error;
+        throw reason;
       })
   );
 };
 
-// Promise.all 实现原理
-function promiseAll(promise) {
+// Promise.all
+function promiseAll(promises) {
   return new Promise(function (resolve, reject) {
-    if (!Array.isArray(promise)) {
+    if (!Array.isArray(promises)) {
       return reject(new typeError("argmuent must be an array"));
     }
-    let countNum = 0;
-    let promiseNum = promise.length;
-    let resolvedvalue = new Array(promiseNum);
-    for (let i = 0; i < promiseNum; i++) {
-      (function (i) {
-				Promise.resolve(promise[i]).then(data => {
-					countNum ++
-					resolvedvalue[i] = data
-					if(countNum === promise) {
-						return resolve(resolvedvalue)
-					}
-				}, reason => {
-					return reject(reason)
-				})
-			})(i);
+    let arr = [];
+    let len = promises.length;
+    for (let i = 0; i < len; i++) {
+      promises[i].then((data) => {
+        arr[i] = data;
+        i++;
+        if (i === promises.length) {
+          resolve(arr);
+        }
+      }, reject);
     }
   });
 }
 
+// Promise.race
+function promiseRace (promiseArr) {
+  return new Promise((resolve, reject) => {
+    if(!Array.isArray(promiseArr)) {
+      return reject('argmuents is not an array')
+    }
+    promiseArr.forEach(item => {
+      Promise.resolve(item).then(resolve, reject)
+    })
+  })
+}
 
 // async await 原理
