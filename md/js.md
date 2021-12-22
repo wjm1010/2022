@@ -4,13 +4,16 @@
  * @Autor: your name
  * @Date: 2021-12-01 13:58:53
  * @LastEditors: your name
- * @LastEditTime: 2021-12-16 14:10:57
+ * @LastEditTime: 2021-12-16 18:06:23
 -->
 new Date().getDate().toString.padStart(2,0)当字符串长度小于第一个参数值，就在前面补第二个参数 padEnd
 
 响应标头：content-Disposition: attachment 设置链接地址下载
 
 Async/Await 是函数Generator的语法糖. Generator之所以可以通过同步实现异步是它具有暂停执行和恢复执行的特性和函数体内外的数据交换和错误处理机制
+
+prefetch 预获取，浏览器空闲时间获取
+preload 预加载，提前加在后面会用到关键资源
 
 window.requestAnimationFrame 页面重绘的频率与显示器刷新频率（60hz/75hz）保持同步,requestAnimationFrame不需要像setTimeout那样传递时间间隔
 
